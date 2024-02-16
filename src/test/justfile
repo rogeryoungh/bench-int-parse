@@ -1,0 +1,23 @@
+test-isd:
+	just test ../impl/strict/isd-0-getu.cpp
+	just test ../impl/strict/isd-1-getu.cpp
+	just test ../impl/strict/isd-u8-getu.cpp
+	just test ../impl/strict/isd-m10-getu.cpp
+	just test ../impl/strict/isd-and-getu.cpp
+	just test ../impl/strict/isd-xor-getu.cpp
+	just test ../impl/strict/isd-range-getu.cpp
+	just test ../impl/strict/isd-range-1-getu.cpp
+	just test ../impl/strict/isd-sub-getu.cpp
+	just test ../impl/strict/isd-sub-1-getu.cpp
+	just test ../impl/strict/isd-goto-getu.cpp
+	just test ../impl/strict/isd-sub-2-getu.cpp
+
+test-swar:
+	just test ../impl/strict/swar-16-getu.cpp
+	just test ../impl/strict/swar-16-1-getu.cpp
+	just test ../impl/strict/swar-32-getu.cpp
+	just test ../impl/strict/swar-64-getu.cpp
+	just test ../impl/strict/pre-16-getu.cpp
+
+test src:
+	g++ -std=c++20 -O2 {{src}} -DALGO_VERIFY && ./a.out
