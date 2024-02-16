@@ -1,0 +1,9 @@
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: Yes
+BasedOnStyle: LLVM
+BreakBeforeBraces: Attach
+ColumnLimit: 100
+Language: Cpp
+SortIncludes: false
