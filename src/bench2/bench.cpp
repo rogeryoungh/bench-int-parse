@@ -39,7 +39,7 @@
 extern "C" u64 BM_FUNC(const char *p);
 
 #define ANKERL_NANOBENCH_IMPLEMENT
-#include "../../../nanobench/nanobench.h"
+#include "../nanobench/nanobench.h"
 
 constexpr u32 N = 1 << 20;
 

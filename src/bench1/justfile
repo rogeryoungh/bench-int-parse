@@ -1,0 +1,83 @@
+cc0 CC:
+	{{CC}} -std=c++20 -S ../impl/strict/isd-0-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-0-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-1-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-1-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-u8-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-u8-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-m10-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-m10-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-and-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-and-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-xor-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-xor-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-range-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-range-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-range-1-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-range-1-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-sub-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-sub-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-sub-1-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-sub-1-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-sub-2-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-sub-2-getu.cpp
+	{{CC}} -std=c++20 -S ../impl/strict/isd-goto-getu.cpp
+	{{CC}} -std=c++20 -c ../impl/strict/isd-goto-getu.cpp
+
+cc1 CC:
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x00 isd-0-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x01 isd-1-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x02 isd-u8-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x03 isd-m10-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x04 isd-and-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x05 isd-xor-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x06 isd-range-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x07 isd-range-1-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x08 isd-sub-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x09 isd-goto-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x0a isd-sub-1-getu.o
+	./a.out
+	{{CC}} -std=c++20 bench.cpp -falign-functions=256 -DBM_CASE=0x0b isd-sub-2-getu.o
+	./a.out
+
+bench-gcc-o2:
+	just cc0 "g++ -O2"
+	just cc1 "g++ -O2"
+	mv *.s *.o build/gcc-o2/
+
+bench-gcc-o3:
+	just cc0 "g++ -O3"
+	just cc1 "g++ -O3"
+	mv *.s *.o build/gcc-o3/
+
+bench-clang-o2:
+	just cc0 "clang++ -O2"
+	just cc1 "clang++ -O2"
+	mv *.s *.o build/clang-o2/
+
+bench-clang-o3:
+	just cc0 "clang++ -O3"
+	just cc1 "clang++ -O3"
+	mv *.s *.o build/clang-o3/
+
+bench:
+	just bench-gcc-o2 > build/gcc-o2/result.txt
+	just bench-gcc-o3 > build/gcc-o3/result.txt
+	just bench-clang-o2 > build/clang-o2/result.txt
+	just bench-clang-o3 > build/clang-o3/result.txt
+
+clean:
+	rm *.asm *.o *.s a.out -f
+	rm build/ -r
+	mkdir build
+	cd build && mkdir gcc-o2 gcc-o3 clang-o2 clang-o3
